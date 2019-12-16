@@ -1,0 +1,39 @@
+*.pyc
+*.sublime-*
+dist/
+build/
+openqlab.egg-info/
+doc/_build
+.ropeproject
+.eggs
+*.swp
+.cache
+.coverage
+htmlcov
+
+\.idea/
+.venv
+.mypy_cache
+
+#src/tests/test_io/test___init__/gzip_data_files/
+
+*.gz
+
+\.dmypy\.json
+TestCSV*
+
+### Pycharm
+\.idea/
+.mypy_cache
+*.local*
+
+## pipenv
+.venv
+.env
+
+### MacOS
+.DS_Store
+
+bin/codeclimate-pep8
+.vscode/
+.pytest_cache/

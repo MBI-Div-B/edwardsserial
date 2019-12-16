@@ -1,0 +1,30 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+recommonmark = "*"
+docutils = "!=0.16b0"
+sphinx-markdown-tables = "*"
+pytest = "*"
+pytest-cov = ">=2.5.1"
+sphinx-rtd-theme = "*"
+twine = "*"
+mypy = "*"
+pylint = "*"
+sphinx = "*"
+pipenv = "*"
+black = "*"
+pre-commit = "*"
+pydocstyle = "*"
+isort = "*"
+seed-isort-config = "*"
+ipython = "*"
+rope = "*"
+
+[packages]
+pyserial = "*"
+
+[pipenv]
+allow_prereleases = true
