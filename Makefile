@@ -11,7 +11,7 @@ bdist:
 	@export PYTHONPATH=`pwd`/src:$(PYTHONPATH); python3 setup.py bdist_wheel
 
 test:
-	@export PYTHONPATH=`pwd`/src:$(PYTHONPATH); py.test -x --log-level=INFO --no-cov-on-fail --cov-report=html src/tests
+	@export PYTHONPATH=`pwd`/src:$(PYTHONPATH); py.test -x --log-level=INFO --no-cov-on-fail --cov tic --cov-report term-missing --cov-report=html src/tests
 
 mypy:
 	@export PYTHONPATH=`pwd`/src:$(PYTHONPATH); mypy src
