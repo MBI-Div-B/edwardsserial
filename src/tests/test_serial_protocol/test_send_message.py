@@ -36,3 +36,10 @@ class TestSendMessage(unittest.TestCase):
         expected_data = ["0.34", "59", "state", "alert ID", "priority"]
         data = SerialProtocol(port="COM3").send_message("?V", 913)
         self.assertEqual(data, expected_data)
+
+    @patch("edwardsserial.serial_protocol.serial.Serial.read_until")
+    def test_data_response_single(self, mock_read_until):
+        mock_read_until.return_value = "=V913 0.34\r"
+        expected_data = ["0.34"]
+        data = SerialProtocol(port="COM3").send_message("?V", 913)
+        self.assertEqual(data, expected_data)
