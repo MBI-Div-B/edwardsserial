@@ -2,10 +2,10 @@ import re
 
 import serial
 
-from edwardsserial.edwards_serial_protocol import EdwardsSerialProtocol
+from edwardsserial.serial_protocol import SerialProtocol
 
 
-class TIC(EdwardsSerialProtocol):
+class TIC(SerialProtocol):
     def __init__(self, port: str):
         self.port = port
 
