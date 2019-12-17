@@ -9,6 +9,12 @@ class ErrorResponse(Exception):
         1: "Invalid command for object ID",
         2: "Invalid query/command",
         3: "Missing parameter",
+        4: "Parameter out of range",
+        5: "Invalid command in current state - e.g. serial command to start or stop when in parallel control mode",
+        6: "Data checksum error",
+        7: "EEPROM read or write error",
+        8: "Operation took too long",
+        9: "Invalid config ID",
     }
 
     def __init__(self, error_code):

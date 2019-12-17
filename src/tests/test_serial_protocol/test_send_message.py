@@ -23,6 +23,14 @@ class TestSendMessage(unittest.TestCase):
             SerialProtocol(port="COM3").send_message("?V", 913)
 
     @patch("edwardsserial.serial_protocol.serial.Serial.read_until")
+    def test_error_response_no_message(self, mock_read_until):
+        mock_read_until.return_value = "*V913 10\r"
+        with self.assertRaisesRegex(
+            ErrorResponse, "Device responded with error code 10: None",
+        ):
+            SerialProtocol(port="COM3").send_message("?V", 913)
+
+    @patch("edwardsserial.serial_protocol.serial.Serial.read_until")
     def test_data_response(self, mock_read_until):
         mock_read_until.return_value = "=V913 0.34;59;state;alert ID;priority\r"
         expected_data = ["0.34", "59", "state", "alert ID", "priority"]
