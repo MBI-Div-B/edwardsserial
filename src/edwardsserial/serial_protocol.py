@@ -3,6 +3,13 @@ import re
 import serial
 
 
+class AlertID(Warning):
+    def __init__(self, id):
+        self.id = id
+        message = None
+        super.__init__(message)
+
+
 class ErrorResponse(Exception):
 
     ERROR_CODES = {
