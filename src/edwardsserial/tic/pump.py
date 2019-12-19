@@ -95,7 +95,7 @@ class TurboPump(Pump):
 
     @property
     def delay(self):
-        self.send_message("?S", self.STANDBY_ID, 21)
+        return self.send_message("?S", self.STANDBY_ID, 21)
 
     @delay.setter
     def delay(self, value: int):
