@@ -109,4 +109,6 @@ class BackingPump(Pump):
     SPEED_ID = 911
     POWER_ID = 912
 
-    pass
+    @property
+    def sequence_options(self):
+        pass
