@@ -9,13 +9,13 @@ from edwardsserial.serial_protocol import ErrorResponse, SerialProtocol
 class TestSendMessage(unittest.TestCase):
     @patch("edwardsserial.serial_protocol.serial.Serial.read_until")
     def test_no_serial_return_value(self, mock_read_until):
-        mock_read_until.return_value = ""
+        mock_read_until.return_value = b""
         with self.assertRaises(ConnectionError):
             SerialProtocol(port="COM3").send_message("?V", 913)
 
     @patch("edwardsserial.serial_protocol.serial.Serial.read_until")
     def test_error_response(self, mock_read_until):
-        mock_read_until.return_value = "*V913 1\r"
+        mock_read_until.return_value = b"*V913 1\r"
         with self.assertRaisesRegex(
             ErrorResponse,
             "Device responded with error code 1: Invalid command for object ID",
@@ -24,7 +24,7 @@ class TestSendMessage(unittest.TestCase):
 
     @patch("edwardsserial.serial_protocol.serial.Serial.read_until")
     def test_error_response_no_message(self, mock_read_until):
-        mock_read_until.return_value = "*V913 10\r"
+        mock_read_until.return_value = b"*V913 10\r"
         with self.assertRaisesRegex(
             ErrorResponse, "Device responded with error code 10: None",
         ):
@@ -32,14 +32,14 @@ class TestSendMessage(unittest.TestCase):
 
     @patch("edwardsserial.serial_protocol.serial.Serial.read_until")
     def test_data_response(self, mock_read_until):
-        mock_read_until.return_value = "=V913 0.34;59;state;alert ID;priority\r"
+        mock_read_until.return_value = b"=V913 0.34;59;state;alert ID;priority\r"
         expected_data = ["0.34", "59", "state", "alert ID", "priority"]
         data = SerialProtocol(port="COM3").send_message("?V", 913)
         self.assertEqual(data, expected_data)
 
     @patch("edwardsserial.serial_protocol.serial.Serial.read_until")
     def test_data_response_single(self, mock_read_until):
-        mock_read_until.return_value = "=V913 0.34\r"
+        mock_read_until.return_value = b"=V913 0.34\r"
         expected_data = ["0.34"]
         data = SerialProtocol(port="COM3").send_message("?V", 913)
         self.assertEqual(data, expected_data)
