@@ -40,7 +40,7 @@ class Pump(SerialProtocol, ABC):
 
     @property
     def speed(self):
-        return int(*self._check_alert(self.SPEED_ID))
+        return float(*self._check_alert(self.SPEED_ID))
 
     @property
     def power(self):
@@ -61,7 +61,7 @@ class TurboPump(Pump):
 
     @property
     def normal(self):
-        value = int(self._check_alert(self.NORMAL_ID))
+        value = int(*self._check_alert(self.NORMAL_ID))
         if value == 0:
             return False
         if value == 4:
