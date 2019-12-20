@@ -9,14 +9,23 @@ class Pump(SerialProtocol, ABC):
     SPEED_ID: int
     POWER_ID: int
 
-    # @property
-    # @classmethod
-    # @abstractmethod
-    # def PUMP_ID(cls):
-    #     return NotImplementedError
-    #
-    # def print_constant(self):
-    #     print(type(self).CONSTANT)
+    PUMP_STATE = {
+        0: "Stopped",
+        1: "Starting Delay",
+        2: "Stopping Short Delay",
+        3: "Stopping Normal Delay",
+        4: "Running",
+        5: "Accelerating",
+        6: "Fault Braking",
+        7: "Braking",
+    }
+
+    def _check_alert(self, object_id):
+        *values, alert_id, priority = self.send_message("?V", object_id)
+        alert_id = int(alert_id)
+        if alert_id:
+            warn(AlertID(alert_id))
+        return values
 
     def on(self):
         self.send_message("!C", self.PUMP_ID, 1)
@@ -26,24 +35,16 @@ class Pump(SerialProtocol, ABC):
 
     @property
     def state(self):
-        value, alert_id, priority = self.send_message("?V", self.PUMP_ID)
-        if alert_id:
-            warn(AlertID(alert_id))
-        return value
+        state = int(self._check_alert(self.PUMP_ID))
+        return f"{state}: {self.PUMP_STATE.get(state)}"
 
     @property
     def speed(self):
-        value, alert_id, priority = self.send_message("?V", self.SPEED_ID)
-        if alert_id:
-            warn(AlertID(alert_id))
-        return value
+        return int(self._check_alert(self.SPEED_ID))
 
     @property
     def power(self):
-        value, alert_id, priority = self.send_message("?V", self.POWER_ID)
-        if alert_id:
-            warn(AlertID(alert_id))
-        return value
+        return float(self._check_alert(self.POWER_ID))
 
     @property
     def type(self):
@@ -60,23 +61,19 @@ class TurboPump(Pump):
 
     @property
     def normal(self):
-        value, alert_id, priority = self.send_message("?V", self.NORMAL_ID)
-        if alert_id:
-            warn(AlertID(alert_id))
-        if value == "0":
+        value = int(self._check_alert(self.NORMAL_ID))
+        if value == 0:
             return False
-        if value == "4":
+        if value == 4:
             return True
         raise ValueError(f"Got state={value}. Expected 0 or 4.")
 
     @property
     def standby(self):
-        value, alert_id, priority = self.send_message("?V", self.STANDBY_ID)
-        if alert_id:
-            warn(AlertID(alert_id))
-        if value == "0":
+        value = int(self._check_alert(self.STANDBY_ID))
+        if value == 0:
             return False
-        if value == "4":
+        if value == 4:
             return True
         raise ValueError(f"Got state={value}. Expected 0 or 4.")
 
@@ -88,14 +85,11 @@ class TurboPump(Pump):
 
     @property
     def cycle_time(self):
-        value, state, alert_id, priority = self.send_message("?V", self.CYCLE_ID)
-        if alert_id:
-            warn(AlertID(alert_id))
-        return value
+        return int(self._check_alert(self.CYCLE_ID))
 
     @property
     def delay(self):
-        return self.send_message("?S", self.PUMP_ID, 21)
+        return int(self.send_message("?S", self.PUMP_ID, 21))
 
     @delay.setter
     def delay(self, value: int):
