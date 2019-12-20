@@ -7,7 +7,7 @@ import serial
 class AlertID(Warning):
     def __init__(self, id):
         self.id = id
-        message = None
+        message = f"{4} ({None})"  # todo: get correct alert messages with dictionary
         super().__init__(message)
 
 
