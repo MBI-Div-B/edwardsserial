@@ -63,9 +63,9 @@ class TurboPump(Pump):
         value, alert_id, priority = self.send_message("?V", self.NORMAL_ID)
         if alert_id:
             warn(AlertID(alert_id))
-        if value == 0:
+        if value == "0":
             return False
-        if value == 4:
+        if value == "4":
             return True
         raise ValueError(f"Got state={value}. Expected 0 or 4.")
 
@@ -74,9 +74,9 @@ class TurboPump(Pump):
         value, alert_id, priority = self.send_message("?V", self.STANDBY_ID)
         if alert_id:
             warn(AlertID(alert_id))
-        if value == 0:
+        if value == "0":
             return False
-        if value == 4:
+        if value == "4":
             return True
         raise ValueError(f"Got state={value}. Expected 0 or 4.")
 
@@ -88,7 +88,7 @@ class TurboPump(Pump):
 
     @property
     def cycle_time(self):
-        value, alert_id, priority = self.send_message("?V", self.STANDBY_ID)
+        value, state, alert_id, priority = self.send_message("?V", self.STANDBY_ID)
         if alert_id:
             warn(AlertID(alert_id))
         return value
