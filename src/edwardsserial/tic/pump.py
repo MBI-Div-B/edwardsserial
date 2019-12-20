@@ -20,6 +20,8 @@ class Pump(SerialProtocol, ABC):
         7: "Braking",
     }
 
+    PUMP_TYPE = {1: None}
+
     def _check_alert(self, object_id):
         *values, alert_id, priority = self.send_message("?V", object_id)
         alert_id = int(alert_id)
@@ -49,7 +51,7 @@ class Pump(SerialProtocol, ABC):
     @property
     def type(self):
         config_type, pump_type = self.send_message("?S", self.PUMP_ID, 3)
-        return pump_type
+        return f"{pump_type}: {self.PUMP_TYPE.get(int(pump_type))}"
 
 
 class TurboPump(Pump):
