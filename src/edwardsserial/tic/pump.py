@@ -35,16 +35,16 @@ class Pump(SerialProtocol, ABC):
 
     @property
     def state(self):
-        state = int(self._check_alert(self.PUMP_ID))
+        state = int(*self._check_alert(self.PUMP_ID))
         return f"{state}: {self.PUMP_STATE.get(state)}"
 
     @property
     def speed(self):
-        return int(self._check_alert(self.SPEED_ID))
+        return int(*self._check_alert(self.SPEED_ID))
 
     @property
     def power(self):
-        return float(self._check_alert(self.POWER_ID))
+        return float(*self._check_alert(self.POWER_ID))
 
     @property
     def type(self):
@@ -70,7 +70,7 @@ class TurboPump(Pump):
 
     @property
     def standby(self):
-        value = int(self._check_alert(self.STANDBY_ID))
+        value = int(*self._check_alert(self.STANDBY_ID))
         if value == 0:
             return False
         if value == 4:
@@ -85,11 +85,11 @@ class TurboPump(Pump):
 
     @property
     def cycle_time(self):
-        return int(self._check_alert(self.CYCLE_ID))
+        return int(*self._check_alert(self.CYCLE_ID))
 
     @property
     def delay(self):
-        return int(self.send_message("?S", self.PUMP_ID, 21))
+        return int(*self.send_message("?S", self.PUMP_ID, 21))
 
     @delay.setter
     def delay(self, value: int):
