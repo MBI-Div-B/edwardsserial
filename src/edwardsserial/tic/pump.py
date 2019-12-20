@@ -85,7 +85,8 @@ class TurboPump(Pump):
 
     @property
     def cycle_time(self):
-        return int(*self._check_alert(self.CYCLE_ID))
+        value, state = self._check_alert(self.CYCLE_ID)
+        return int(value)
 
     @property
     def delay(self):
