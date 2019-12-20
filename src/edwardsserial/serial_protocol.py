@@ -1,3 +1,4 @@
+import logging
 import re
 
 import serial
@@ -7,7 +8,7 @@ class AlertID(Warning):
     def __init__(self, id):
         self.id = id
         message = None
-        super.__init__(message)
+        super().__init__(message)
 
 
 class ErrorResponse(Exception):
@@ -59,7 +60,7 @@ class SerialProtocol:
             message = self._create_message(operation, object_id, data=data)
             ser.write(message.encode("ascii"))
             response = ser.read_until(b"\r").decode("ascii")
-            print(f"response={response}")
+            logging.debug(f"send_message: response={response}")
             response = self.RESPONSE.match(response)
         if not response:
             raise ConnectionError("No serial connection to device.")
