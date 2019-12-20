@@ -57,7 +57,7 @@ class SerialProtocol:
     def send_message(self, operation, object_id, data=None):
         with serial.Serial(self.port, timeout=1, baudrate=self.BAUDRATE) as ser:
             message = self._create_message(operation, object_id, data=data)
-            ser.write(message)
+            ser.write(message.encode("ascii"))
             response = ser.read_until("\r")
             print(f"response={response}")
             response = self.RESPONSE.match(response)
