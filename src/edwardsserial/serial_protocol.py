@@ -35,8 +35,11 @@ class ErrorResponse(Exception):
 class SerialProtocol:
     BAUDRATE = 9600
     COMMAND = re.compile(r"![CS]\d{1,5} (.+;?)+\r", flags=re.ASCII)
-    QUERY = re.compile(r"\?[SV]\d{1,5}\r", flags=re.ASCII)
-    MESSAGE = re.compile(f"{COMMAND.pattern}|{QUERY.pattern}")
+    SETUP_QUERY = re.compile(r"\?[S]\d{1,5}( \d+)*\r", flags=re.ASCII)
+    VALUE_QUERY = re.compile(r"\?[V]\d{1,5}\r", flags=re.ASCII)
+    MESSAGE = re.compile(
+        f"{COMMAND.pattern}|{SETUP_QUERY.pattern}|{VALUE_QUERY.pattern}"
+    )
 
     ERROR_RESPONSE = re.compile(
         r"\*[CSV]\d{1,5} (?P<error_code>\d{1,2})\r", flags=re.ASCII
