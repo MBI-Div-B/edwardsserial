@@ -19,8 +19,19 @@ class Pump(SerialProtocol, ABC):
         6: "Fault Braking",
         7: "Braking",
     }
-
-    PUMP_TYPE = {1: None}
+    PUMP_TYPE = {
+        0: "No Pump",
+        1: "EXDC",
+        3: "EXT75DX",
+        4: "EXT255DC",
+        8: "Mains Backing Pump",
+        9: "Serial Pump",
+        10: "nEXT - 485",
+        11: "nEXT - 232",
+        12: "nXDS",
+        # 16: "nEXT",  # todo: check if this is True
+        99: "Not yet identified",
+    }
 
     def _check_alert(self, object_id):
         *values, alert_id, priority = self.send_message("?V", object_id)
