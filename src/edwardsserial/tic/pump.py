@@ -48,7 +48,8 @@ class Pump(SerialProtocol, ABC):
 
     @property
     def type(self):
-        return self.send_message("?S", self.PUMP_ID, 3)
+        config_type, pump_type = self.send_message("?S", self.PUMP_ID, 3)
+        return pump_type
 
 
 class TurboPump(Pump):
