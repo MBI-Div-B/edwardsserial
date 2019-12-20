@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
-from warnings import warn
 
-from edwardsserial.serial_protocol import AlertID, SerialProtocol
+from edwardsserial.serial_protocol import SerialProtocol
 
 
 class Pump(SerialProtocol, ABC):
@@ -32,13 +31,6 @@ class Pump(SerialProtocol, ABC):
         # 16: "nEXT",  # todo: check if this is True
         99: "Not yet identified",
     }
-
-    def _check_alert(self, object_id):
-        *values, alert_id, priority = self.send_message("?V", object_id)
-        alert_id = int(alert_id)
-        if alert_id:
-            warn(AlertID(alert_id))
-        return values
 
     def on(self):
         self.send_message("!C", self.PUMP_ID, 1)

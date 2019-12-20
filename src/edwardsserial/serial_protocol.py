@@ -1,5 +1,6 @@
 import logging
 import re
+from warnings import warn
 
 import serial
 
@@ -49,6 +50,13 @@ class SerialProtocol:
 
     def __init__(self, port: str):
         self.port = port
+
+    def _check_alert(self, object_id):
+        *values, alert_id, priority = self.send_message("?V", object_id)
+        alert_id = int(alert_id)
+        if alert_id:
+            warn(AlertID(alert_id))
+        return values
 
     @classmethod
     def _create_message(cls, operation: str, object_id: int, data=None) -> str:
