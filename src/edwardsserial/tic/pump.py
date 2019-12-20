@@ -88,20 +88,20 @@ class TurboPump(Pump):
 
     @property
     def cycle_time(self):
-        value, state, alert_id, priority = self.send_message("?V", self.STANDBY_ID)
+        value, state, alert_id, priority = self.send_message("?V", self.CYCLE_ID)
         if alert_id:
             warn(AlertID(alert_id))
         return value
 
     @property
     def delay(self):
-        return self.send_message("?S", self.STANDBY_ID, 21)
+        return self.send_message("?S", self.PUMP_ID, 21)
 
     @delay.setter
     def delay(self, value: int):
         if value not in range(0, 100):
             raise ValueError("Must be between 0 and 99")
-        self.send_message("!S", self.STANDBY_ID, "21;{value}")
+        self.send_message("!S", self.PUMP_ID, "21;{value}")
 
 
 class BackingPump(Pump):
