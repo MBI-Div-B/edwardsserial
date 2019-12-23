@@ -61,3 +61,23 @@ class TIC(SerialProtocol):
         if value not in self.PRESSURE_UNITS.keys():
             raise ValueError(f"Value must be a key from {self.PRESSURE_UNITS}")
         self.send_message("!S", 929, value)
+
+    @property
+    def display_contrast(self):
+        return int(self.send_message("?S", 925))
+
+    @display_contrast.setter
+    def display_contrast(self, value):
+        if value not in range(-5, 16):
+            raise ValueError(f"Value must be in {range(-5,16)}")
+        self.send_message("!S", 925, value)
+
+    @property
+    def internal_temperature(self):
+        temperature = self._check_alert(920)
+        return float(temperature)
+
+    @property
+    def power_supply_temperature(self):
+        temperature = self._check_alert(919)
+        return float(temperature)
