@@ -28,6 +28,18 @@ class Gauge(SerialProtocol):
         11: "APGXL",
         12: "ATCA",
         13: "ATCD",
+        14: "ATCM",
+        15: "WRG",
+        16: "AIMC",
+        17: "AIMN",
+        18: "AIMS",
+        19: "AIMX",
+        20: "AIGC_I2R",
+        21: "AIGX_2FIL",
+        22: "ION_EB",
+        23: "AIGXS",
+        24: "USER",
+        25: "ASG",
     }
 
     GAS_TYPE = {
