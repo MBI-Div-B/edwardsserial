@@ -96,13 +96,14 @@ class TurboPump(Pump):
 
     @property
     def delay(self):
-        return int(*self.send_message("?S", self.PUMP_ID, 21))
+        config_type, delay = self.send_message("?S", self.PUMP_ID, 21)
+        return int(delay)
 
     @delay.setter
     def delay(self, value: int):
         if value not in range(0, 100):
             raise ValueError("Must be between 0 and 99")
-        self.send_message("!S", self.PUMP_ID, "21;{value}")
+        self.send_message("!S", self.PUMP_ID, f"21;{value}")
 
 
 class BackingPump(Pump):

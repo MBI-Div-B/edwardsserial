@@ -1,20 +1,57 @@
+import re
+
 from edwardsserial.serial_protocol import SerialProtocol
 
 
 class Gauge(SerialProtocol):
+    GAUGE_NAME = re.compile(
+        "[A-Z0-9]{1,4}"
+    )  # todo: check format if a-z os also possible and how many characters needed
     UNITS = {
         59: "Pa",
         66: "V",
         81: "%",
     }
 
+    GAUGE_TYPE = {
+        0: "Unknown Device",
+        1: "No Device",
+        2: "EXP_CM",
+        3: "EXP_STD",
+        4: "CMAN_S",
+        5: "CMAN_D",
+        6: "TURBO",
+        7: "APGM",
+        8: "APGL",
+        9: "APGXM",
+        10: "APGXH",
+        11: "APGXL",
+        12: "ATCA",
+        13: "ATCD",
+    }
+
+    GAS_TYPE = {
+        0: "Nitrogen",
+        1: "Helium",
+        2: "Argon",
+        3: "Carbon Dioxide",
+        4: "Neon",
+        5: "Krypton",
+        6: "Voltage",
+    }
+
+    ASG_RANGE = {
+        0: "1000 mbar",
+        1: "2000 mbar",
+    }
+
     def __init__(self, port, object_id):
         super().__init__(port)
-        self.object_id = object_id
+        self.OBJECT_ID = object_id
 
     @property
     def pressure(self):
-        value, unit, state = self._check_alert(self.object_id)
+        value, unit, state = self._check_alert(self.OBJECT_ID)
         unit = int(unit)
         if unit == 81:
             return int(value)
@@ -22,21 +59,74 @@ class Gauge(SerialProtocol):
 
     @property
     def unit(self):
-        value, unit, state = self._check_alert(self.object_id)
+        value, unit, state = self._check_alert(self.OBJECT_ID)
         return self.UNITS.get(int(unit))
 
     @property
     def type(self):
-        return
+        gauge_type = self.send_message("?S", self.OBJECT_ID, 5)
+        return f"{gauge_type}: {self.GAUGE_TYPE.get(int(gauge_type))}"
 
     @property
     def name(self):
-        return
+        config_type, name = self.send_message("?S", self.OBJECT_ID, 68)
+        return name
+
+    @name.setter
+    def name(self, value):
+        if not self.GAUGE_NAME.match(value):
+            raise ValueError(
+                "Wrong name format: Only 4 characters of [A-Z0-9] are allowed."
+            )
+        self.send_message("?S", self.OBJECT_ID, f"68;{value}")
 
     @property
     def gas_type(self):
-        return
+        config_type, gas_type, gas_filter = self.send_message("?S", self.OBJECT_ID, 7)
+        return f"{gas_type}: {self.GAS_TYPE.get(int(gas_type))}"
+
+    @gas_type.setter
+    def gas_type(self, value):
+        if value not in self.GAS_TYPE.keys():
+            raise ValueError(f"Value must be a key from {self.GAS_TYPE}")
+        self.send_message("!S", self.OBJECT_ID, f"7;{value};{int(self.filter)}")
+
+    @property
+    def filter(self):
+        config_type, gas_type, gas_filter = self.send_message("?S", self.OBJECT_ID, 7)
+        return f"{bool(gas_filter)}"
+
+    @filter.setter
+    def filter(self, value: bool):
+        if not isinstance(value, bool):
+            raise ValueError(f"Value must be boolean.")
+        self.send_message("!S", self.OBJECT_ID, f"7;{self.gas_type};{value}")
 
     @property
     def ASG_range(self):
-        return
+        config_type, asg_range = self.send_message("!S", self.OBJECT_ID, 6)
+        return f"{int(asg_range)}: {self.ASG_RANGE.get(int(asg_range))}"
+
+    @ASG_range.setter
+    def ASG_range(self, value):
+        if value not in self.ASG_RANGE.keys():
+            raise ValueError(f"Value must be a key from {self.ASG_RANGE}")
+        self.send_message("!S", self.OBJECT_ID, f"{6};{value}")
+
+    def on(self):
+        self.send_message("!C", self.OBJECT_ID, 1)
+
+    def off(self):
+        self.send_message("!C", self.OBJECT_ID, 0)
+
+    def zero(self):
+        self.send_message("!C", self.OBJECT_ID, 3)
+
+    def calibrate(self):
+        self.send_message("!C", self.OBJECT_ID, 4)
+
+    def degas(self):
+        self.send_message("!C", self.OBJECT_ID, 5)
+
+    def new_id(self):
+        self.send_message("!C", self.OBJECT_ID, 2)
