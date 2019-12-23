@@ -6,11 +6,60 @@ import serial
 
 
 class AlertID(Warning):
-    def __init__(self, id):
-        self.id = id
-        message = (
-            f"{self.id} ({None})"  # todo: get correct alert messages with dictionary
-        )
+    ALERT_ID = {
+        0: "No Alert",
+        1: "ADC Fault",
+        2: "ADC Not Ready",
+        3: "Over Range",
+        4: "Under Range",
+        5: "ADC Invalid",
+        6: "No Gauge",
+        7: "Unknown",
+        8: "Not Supported",
+        9: "New ID",
+        10: "Over Range",
+        11: "Under Range",
+        12: "Over Range",
+        13: "Ion Em Timeout",
+        14: "Not Struck",
+        15: "Filament Fail",
+        16: "Mag Fail",
+        17: "Striker Fail",
+        18: "Not Struck",
+        19: "Filament Fail",
+        20: "Cal Error",
+        21: "Initialising",
+        22: "Emission Error",
+        23: "Over Pressure",
+        24: "ASG Cant Zero",
+        25: "RampUp Timeout",
+        26: "Droop Timeout",
+        27: "Run Hours High",
+        28: "SC Interlock",
+        29: "ID Volts Error",
+        30: "Serial ID Fail",
+        31: "Upload Active",
+        32: "DX Fault",
+        33: "Temp Alert",
+        34: "SYSI Inhibit",
+        35: "Ext Inhibit",
+        36: "Temp Inhibit",
+        37: "No Reading",
+        38: "No Message",
+        39: "NOV Failure",
+        40: "Upload Timeout",
+        41: "Download Failed",
+        42: "No Tube",
+        43: "Use Gauges 4-6",
+        44: "Degas Inhibited",
+        45: "IGC Inhibited",
+        46: "Brownout/Short",
+        47: "Service due",
+    }
+
+    def __init__(self, alert_id):
+        self.id = alert_id
+        message = f"{self.id} ({self.ALERT_ID.get(self.id)})"
         super().__init__(message)
 
 

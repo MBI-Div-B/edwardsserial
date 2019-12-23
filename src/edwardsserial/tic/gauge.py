@@ -42,6 +42,22 @@ class Gauge(SerialProtocol):
         25: "ASG",
     }
 
+    GAUGE_STATE = {
+        0: "Gauge Not Connected",
+        1: "Gauge Connected",
+        2: "New Gauge ID",
+        3: "Gauge Change",
+        4: "Gauge In ALert",
+        5: "Off",
+        6: "Striking",
+        7: "Initialising",
+        8: "Calibrate",
+        9: "Zeroing",
+        10: "Degassing",
+        11: "On",
+        12: "Inhibited",
+    }
+
     GAS_TYPE = {
         0: "Nitrogen",
         1: "Helium",
@@ -73,6 +89,11 @@ class Gauge(SerialProtocol):
     def unit(self):
         value, unit, state = self._check_alert(self.OBJECT_ID)
         return self.UNITS.get(int(unit))
+
+    @property
+    def state(self):
+        value, unit, state = self._check_alert(self.OBJECT_ID)
+        return f"{state}: {self.GAUGE_STATE.get(state)}"
 
     @property
     def type(self):
