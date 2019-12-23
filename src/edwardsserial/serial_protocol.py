@@ -48,6 +48,14 @@ class SerialProtocol:
     DATA_RESPONSE = re.compile(r"=[SV]\d{1,5} (?P<data>.+;?)+\r", flags=re.ASCII)
     RESPONSE = re.compile(f"{ERROR_RESPONSE.pattern}|{DATA_RESPONSE.pattern}")
 
+    STATE = {
+        0: "Off State",
+        1: "Off Goiing On State",
+        2: "On Going Off Shutdown State",
+        3: "On Going Off Normal State",
+        4: "On State",
+    }
+
     def __init__(self, port: str):
         self.port = port
 

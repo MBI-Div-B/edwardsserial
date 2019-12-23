@@ -12,6 +12,12 @@ class TIC(SerialProtocol):
         self._gauge2 = Gauge(port, 914)
         self._gauge3 = Gauge(port, 915)
 
+    PRESSURE_UNITS = {
+        1: "kPa",
+        2: "mbar",
+        3: "Torr",
+    }
+
     @property
     def turbo_pump(self):
         return self._turbo_pump
@@ -39,3 +45,19 @@ class TIC(SerialProtocol):
             int(gauge): float(value) for gauge, value in zip(answer[::2], answer[1::2])
         }
         return values
+
+    @property
+    def status(self):
+        state = self._check_alert(933)
+        return f"{state}: {self.STATE[state]}"
+
+    @property
+    def pressure_units(self):
+        unit = self.send_message("?S", 929)
+        return f"{unit}: {self.PRESSURE_UNITS.get(unit)}"
+
+    @pressure_units.setter
+    def pressure_units(self, value):
+        if value not in self.PRESSURE_UNITS.keys():
+            raise ValueError(f"Value must be a key from {self.PRESSURE_UNITS}")
+        self.send_message("!S", 929, value)
