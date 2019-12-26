@@ -5,8 +5,8 @@ from edwardsserial.serial_protocol import SerialProtocol
 
 class Gauge(SerialProtocol):
     GAUGE_NAME = re.compile(
-        "[A-Z0-9]{1,4}"
-    )  # todo: check format if a-z os also possible and how many characters needed
+        "[A-Z0-9]{0,4}"
+    )  # [a-z] does not get an error response but does not change the name.
     UNITS = {
         59: "Pa",
         66: "V",
