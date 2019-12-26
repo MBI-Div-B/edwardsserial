@@ -138,6 +138,7 @@ class SerialProtocol:
         error_code = groups.get("error_code")
         if error_code:
             error_code = int(error_code)
-            if not error_code == 0:
+            if error_code:
                 raise ErrorResponse(error_code=error_code)
+            return
         return groups.get("data").split(";")
