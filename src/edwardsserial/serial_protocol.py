@@ -135,6 +135,9 @@ class SerialProtocol:
         if not response:
             raise ConnectionError("No serial connection to device.")
         groups = response.groupdict()
-        if groups.get("error_code"):
-            raise ErrorResponse(error_code=groups.get("error_code"))
+        error_code = groups.get("error_code")
+        if error_code:
+            error_code = int(error_code)
+            if not error_code == 0:
+                raise ErrorResponse(error_code=error_code)
         return groups.get("data").split(";")
