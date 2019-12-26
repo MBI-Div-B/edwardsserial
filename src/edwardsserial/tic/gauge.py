@@ -139,7 +139,7 @@ class Gauge(SerialProtocol):
     def filter(self, value: bool):
         if not isinstance(value, bool):
             raise ValueError(f"Value must be boolean.")
-        self.send_message("!S", self.OBJECT_ID, f"7;{self.gas_type};{value}")
+        self.send_message("!S", self.OBJECT_ID, f"7;{self.gas_type[0]};{value}")
 
     @property
     def ASG_range(self):
