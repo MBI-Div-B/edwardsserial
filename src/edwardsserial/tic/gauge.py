@@ -126,6 +126,12 @@ class Gauge(SerialProtocol):
 
     @property
     def filter(self):
+        """ Moving average filter for the pressure of 1 second.
+
+        Returns
+        -------
+        Filter active: True or False
+        """
         config_type, gas_type, gas_filter = self.send_message("?S", self.OBJECT_ID, 7)
         return f"{bool(int(gas_filter))}"
 
