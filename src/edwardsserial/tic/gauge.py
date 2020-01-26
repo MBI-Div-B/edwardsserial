@@ -133,7 +133,7 @@ class Gauge(SerialProtocol):
         Filter active: True or False
         """
         config_type, gas_type, gas_filter = self.send_message("?S", self.OBJECT_ID, 7)
-        return f"{bool(int(gas_filter))}"
+        return bool(int(gas_filter))
 
     @filter.setter
     def filter(self, value: bool):
