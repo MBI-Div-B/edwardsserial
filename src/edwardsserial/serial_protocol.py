@@ -4,6 +4,8 @@ from warnings import warn
 
 import serial
 
+log = logging.getLogger(__name__)
+
 
 class AlertID(Warning):
     ALERT_ID = {
@@ -58,9 +60,9 @@ class AlertID(Warning):
     }
 
     def __init__(self, alert_id):
-        self.id = alert_id
-        message = f"{self.id} ({self.ALERT_ID.get(self.id)})"
+        message = f"{alert_id} ({self.ALERT_ID.get(alert_id)})"
         super().__init__(message)
+        # self.id = alert_id
 
 
 class ErrorResponse(Exception):
@@ -117,7 +119,7 @@ class SerialProtocol:
 
     @classmethod
     def _create_message(cls, operation: str, object_id: int, data=None) -> str:
-        data = f" {data}" if data else ""
+        data = f" {data}" if data is not None else ""
         message = f"{operation}{object_id}{data}\r"
         if not cls.MESSAGE.match(message):
             raise ValueError(
@@ -130,7 +132,7 @@ class SerialProtocol:
             message = self._create_message(operation, object_id, data=data)
             ser.write(message.encode("ascii"))
             response = ser.read_until(b"\r").decode("ascii")
-            logging.debug(f"send_message: response={response}")
+            log.debug(f"send_message: response={response}")
             response = self.RESPONSE.match(response)
         if not response:
             raise ConnectionError("No serial connection to device.")

@@ -21,3 +21,13 @@ class TestCreateMessage(unittest.TestCase):
     def test_wrong_operation(self):
         with self.assertRaises(ValueError):
             SerialProtocol._create_message("!V", 912, 1)
+
+    def test_data_with_truthiness_false(self):
+        expected_message = "!C912 0\r"
+        actual_message = SerialProtocol._create_message("!C", 912, 0)
+        self.assertEqual(actual_message, expected_message)
+
+    def test_data_none(self):
+        expected_message = "?V912\r"
+        actual_message = SerialProtocol._create_message("?V", 912, None)
+        self.assertEqual(actual_message, expected_message)
