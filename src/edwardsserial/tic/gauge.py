@@ -1,11 +1,12 @@
 import re
+import warnings
 
 from edwardsserial.serial_protocol import SerialProtocol
 
 
 class Gauge(SerialProtocol):
     GAUGE_NAME = re.compile(
-        "[A-Z0-9]{0,4}"
+        "[A-Z0-9]{0,4}$"
     )  # [a-z] does not get an error response but does not change the name.
     UNITS = {
         59: "Pa",
@@ -80,6 +81,8 @@ class Gauge(SerialProtocol):
     @property
     def pressure(self):
         value, unit, state = self._check_alert(self.OBJECT_ID)
+        if int(state) not in [8, 11]:
+            return None
         unit = int(unit)
         if unit == 81:
             return int(value)
@@ -93,11 +96,11 @@ class Gauge(SerialProtocol):
     @property
     def state(self):
         value, unit, state = self._check_alert(self.OBJECT_ID)
-        return f"{state}: {self.GAUGE_STATE.get(state)}"
+        return f"{state}: {self.GAUGE_STATE.get(int(state))}"
 
     @property
     def type(self):
-        gauge_type = self.send_message("?S", self.OBJECT_ID, 5)
+        config_type, gauge_type = self.send_message("?S", self.OBJECT_ID, 5)
         return f"{gauge_type}: {self.GAUGE_TYPE.get(int(gauge_type))}"
 
     @property
@@ -111,7 +114,7 @@ class Gauge(SerialProtocol):
             raise ValueError(
                 "Wrong name format: Only 4 characters of [A-Z0-9] are allowed."
             )
-        self.send_message("?S", self.OBJECT_ID, f"68;{value}")
+        self.send_message("!S", self.OBJECT_ID, f"68;{value}")
 
     @property
     def gas_type(self):
