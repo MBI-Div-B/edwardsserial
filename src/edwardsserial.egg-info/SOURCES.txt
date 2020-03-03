@@ -6,7 +6,6 @@ Pipfile
 Pipfile.lock
 README.md
 mypy.ini
-setup.cfg
 setup.py
 src/edwardsserial/__init__.py
 src/edwardsserial/nEXT.py
@@ -14,7 +13,6 @@ src/edwardsserial/serial_protocol.py
 src/edwardsserial.egg-info/PKG-INFO
 src/edwardsserial.egg-info/SOURCES.txt
 src/edwardsserial.egg-info/dependency_links.txt
-src/edwardsserial.egg-info/not-zip-safe
 src/edwardsserial.egg-info/requires.txt
 src/edwardsserial.egg-info/top_level.txt
 src/edwardsserial/tic/__init__.py

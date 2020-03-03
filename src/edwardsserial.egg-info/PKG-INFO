@@ -1,12 +1,11 @@
-Metadata-Version: 1.1
+Metadata-Version: 1.2
 Name: edwardsserial
-Version: 0.1.dev52+g1e86c73
-Summary: An open-source collection of tools for quantum-optics experiments
+Version: 0.1.0
+Summary: Python API implementing the serial protocoll from edwards vacuum.
 Home-page: UNKNOWN
-Author: Jan Petermann, ILP, University of Hamburg
-Author-email: UNKNOWN
+Author: Jan Petermann
+Author-email: jpeterma@physnet.uni-hamburg.de
 License: UNKNOWN
 Description: UNKNOWN
-Platform: any
-Classifier: Development Status :: 4 - Beta
-Classifier: Programming Language :: Python
+Platform: UNKNOWN
+Requires-Python: >=3.8,<4.0
