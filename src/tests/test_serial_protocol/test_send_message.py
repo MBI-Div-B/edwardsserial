@@ -2,7 +2,7 @@ import logging
 
 from edwardsserial.serial_protocol import ErrorResponse, SerialProtocol
 from edwardsserial.tic import TIC
-from tests.mocked_serial import MockedSerial
+from tests.mocked_serial import MockedBaseTest
 
 log = logging.getLogger()
 log.getChild("serial_protocol")
@@ -14,7 +14,7 @@ log.setLevel(logging.DEBUG)
 log.addHandler(logging.StreamHandler())
 
 
-class TestSendMessage(MockedSerial):
+class TestSendMessage(MockedBaseTest.MockedSerial):
     def test_no_serial_return_value(self):
         self.mocks["read_until"].return_value = b""
         with self.assertRaises(ConnectionError):
@@ -58,11 +58,3 @@ class TestSendMessage(MockedSerial):
         data = SerialProtocol(port="COM3").send_message("?V", 913)
         self.assertEqual(data, expected_data)
         self.mocks["Serial.write"].assert_called_with(b"?V913\r")
-
-    def test_check_ret_val(self):
-        controller = TIC("")
-        self.check_return_value(
-            method=lambda: controller.gauge1.pressure,
-            serial_return_value=b"=V913 0.34;59;11;0;0\r",
-            expected_return_value=3.4e-1,
-        )
