@@ -1,8 +1,7 @@
-image: python:3.7-alpine
+image: python:3.7
 
 before_script:
-  - apk add --no-cache gcc libressl-dev musl-dev libffi-dev
-  - pip --no-cache-dir install setuptool poetry poetry-setup
+  - pip --no-cache-dir install poetry
   - poetry install 
 
 stages:
