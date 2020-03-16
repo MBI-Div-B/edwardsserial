@@ -1,7 +1,7 @@
 image: python:3.7-alpine
 
 before_script:
-  - pip install poetry
+  - apk add poetry
   - poetry install 
 
 stages:
