@@ -32,7 +32,7 @@ test:
     - make test
   artifacts:
     paths:
-      -htmlcov
+      - htmlcov
     expire_in: 30 days
 
 mypy:
