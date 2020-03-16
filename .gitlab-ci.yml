@@ -1,4 +1,4 @@
-image: 3.7-alpine
+image: python:3.7-alpine
 
 before_script:
   - pip install poetry
