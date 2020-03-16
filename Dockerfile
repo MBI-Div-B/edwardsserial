@@ -8,5 +8,5 @@ ADD pyproject.toml /code/
 
 RUN pip install poetry
 
-RUN poetry run pip install --upgrade pip && poetry install
+RUN poetry run pip install --upgrade pip && poetry install --verbose
 
