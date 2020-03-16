@@ -3,6 +3,12 @@ name = "edwardsserial"
 version = "0.1.0"
 description = "Python API implementing the serial protocoll from edwards vacuum."
 authors = ["Jan Petermann <jpeterma@physnet.uni-hamburg.de>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://gitlab.com/jpeterma/edwardsserial"
+repository = "https://gitlab.com/jpeterma/edwardsserial"
+keywords = ["TIC", "edwards", "vacuum"]
+
 
 [tool.poetry.dependencies]
 python = "^3.7"
