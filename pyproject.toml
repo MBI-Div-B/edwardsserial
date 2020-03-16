@@ -22,18 +22,14 @@ pytest = "*"
 pytest-cov = ">=2.5.1"
 pytest-subtests = "*"
 sphinx-rtd-theme = "*"
-twine = "*"
 mypy = "*"
 pylint = "*"
 sphinx = "*"
-pipenv = "*"
 black = "==19.10b0"
 pre-commit = "*"
 pydocstyle = "*"
 isort = "*"
 seed-isort-config = "*"
-ipython = "*"
-rope = "*"
 
 [build-system]
 requires = ["poetry>=0.12"]
