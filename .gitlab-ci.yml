@@ -1,7 +1,7 @@
 image: python:3.7-alpine
 
 before_script:
-  - apk add --no-cache python-dev
+  - apk add --no-cache gcc
   - pip --no-cache-dir install poetry poetry-setup
   - poetry install 
 
