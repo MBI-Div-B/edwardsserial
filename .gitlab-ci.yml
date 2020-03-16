@@ -1,3 +1,9 @@
+image: 3.7-alpine
+
+before_script:
+  - pip install poetry
+  - poetry install 
+
 stages:
   - code-quality
   - test
@@ -5,26 +11,22 @@ stages:
   #- deploy
 
 pylint:
-  image: lasnq/openqlab
   stage: code-quality
   script:
     - make pylint
 
 black:
-  image: lasnq/openqlab
   stage: code-quality
   script:
     - black --check src
 
 pydocstyle:
-  image: lasnq/openqlab
   stage: code-quality
   allow_failure: true
   script:
     - make pydocstyle
 
 test:
-  image: 3.7-alpine
   stage: test
   script:
     - make test
@@ -34,7 +36,6 @@ test:
     expire_in: 30 days
 
 mypy:
-  image: 3.7-alpine
   stage: test
   script:
     - make mypy

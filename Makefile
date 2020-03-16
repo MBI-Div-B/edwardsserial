@@ -8,24 +8,22 @@ doc:
 upload-doc:
 	@cd doc; make upload
 
-bdist:
-	@export PYTHONPATH=`pwd`/src:$(PYTHONPATH); python3 setup.py bdist_wheel
 
 test:
-	@export PYTHONPATH=`pwd`/src:$(PYTHONPATH); py.test  --log-level=INFO --no-cov-on-fail --cov $(package_name) --cov-report term-missing --cov-report=html src/tests
+	poetry run py.test  --log-level=INFO --no-cov-on-fail --cov $(package_name) --cov-report term-missing --cov-report=html tests
 
 mypy:
-	@export PYTHONPATH=`pwd`/src:$(PYTHONPATH); mypy src
+	poetry run mypy .
 
 pylint:
-	@export PYTHONPATH=`pwd`/src:$(PYTHONPATH); pylint src/$(package_name)
+	poetry run pylint $(package_name)
 
 
 black:
-	@export PYTHONPATH=`pwd`/src:$(PYTHONPATH); black src
+	poetry run black .
 
 pydocstyle:
-	@export PYTHONPATH=`pwd`/src:$(PYTHONPATH); pydocstyle --convention=numpy src/$(package_name)
+	poetry run pydocstyle --convention=numpy $(package_name)
 
 all-tests: mypy test pylint
 
