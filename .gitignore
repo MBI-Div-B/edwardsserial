@@ -27,6 +27,9 @@ TestCSV*
 .mypy_cache
 *.local*
 
+## pyenv
+.python-version
+
 ## pipenv
 .venv
 .env
