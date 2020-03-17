@@ -12,12 +12,12 @@ stages:
  #- deploy
 
 docker-build:
- image: docker:stable
+ image: tomkukral/buildah
  stage: docker-build
  before_script: []
  script:
   #- echo "Hello Build"
-  - docker build .
+  - buildah bud .
  tags:
   - docker-build  
 
