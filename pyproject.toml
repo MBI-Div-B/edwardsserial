@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "edwardsserial"
-version = "0.1.0"
+version = "0.2.0"
 description = "Python API implementing the serial protocoll from edwards vacuum."
 authors = ["Jan Petermann <jpeterma@physnet.uni-hamburg.de>"]
 license = "MIT"
