@@ -1,19 +1,28 @@
 image: python:3.7
 
 before_script:
-  - pip --no-cache-dir install poetry
-  - poetry install 
+ - pip --no-cache-dir install poetry
+ - poetry install 
 
 stages:
-  - code-quality
-  - test
-  #- test-build
-  #- deploy
+ - docker-build
+ - code-quality
+ - test
+ #- test-build
+ #- deploy
+
+docker-build:
+ image: docker:stable
+ stage: docker-build
+ script:
+  - echo "Hello Build"
+ tags:
+  - docker-build  
 
 pylint:
-  stage: code-quality
-  script:
-    - make pylint
+ stage: code-quality
+ script:
+  - make pylint
 
 black:
   stage: code-quality
