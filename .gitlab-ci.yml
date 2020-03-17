@@ -16,8 +16,8 @@ docker-build:
  stage: docker-build
  before_script: []
  script:
-  #- echo "Hello Build"
-  - buildah bud .
+  - echo "Hello Build"
+  #- buildah bud .
  tags:
   - docker-build  
 
