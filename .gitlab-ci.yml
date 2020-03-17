@@ -1,8 +1,3 @@
-image: python:3.7
-
-before_script:
- - pip --no-cache-dir install poetry
- - poetry install 
 
 stages:
  - docker-build
@@ -19,6 +14,12 @@ docker-build:
  tags:
   - docker-build  
 
+image: python:3.7
+
+before_script:
+ - pip --no-cache-dir install poetry
+ - poetry install
+ 
 pylint:
  stage: code-quality
  script:
