@@ -14,8 +14,6 @@ stages:
 docker-build:
  image: docker:stable
  stage: docker-build
- before_script:
-  - 
  script:
   - echo "Hello Build"
  tags:
