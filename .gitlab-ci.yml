@@ -30,7 +30,7 @@ pylint:
 black:
   stage: code-quality
   script:
-    - black --check src
+    - make black
 
 pydocstyle:
   stage: code-quality
