@@ -12,7 +12,7 @@ stages:
  #- deploy
 
 container-build:
- stage: docker-build
+ stage: container-build
  before_script: []
  script:
   #- echo "Hello Build"
