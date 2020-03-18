@@ -5,21 +5,20 @@ default:
   - poetry install
 
 stages:
- - docker-build
+ - container-build
  - code-quality
  - test
  #- test-build
  #- deploy
 
-docker-build:
- image: tomkukral/buildah
+container-build:
  stage: docker-build
  before_script: []
  script:
-  - echo "Hello Build"
-  #- buildah bud .
+  #- echo "Hello Build"
+  - podman build .
  tags:
-  - docker-build  
+  - container-build  
 
  
 pylint:
