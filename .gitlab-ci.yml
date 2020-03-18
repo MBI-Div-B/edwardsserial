@@ -23,30 +23,31 @@ container-build:
  
 pylint:
  stage: code-quality
+ allow_failure: true
  script:
   - make pylint
 
 black:
-  stage: code-quality
-  script:
-    - make black
+ stage: code-quality
+ script:
+  - make black
 
 pydocstyle:
-  stage: code-quality
-  allow_failure: true
-  script:
-    - make pydocstyle
+ stage: code-quality
+ allow_failure: true
+ script:
+  - make pydocstyle
 
 test:
-  stage: test
-  script:
-    - make test
-  artifacts:
-    paths:
-      - htmlcov
-    expire_in: 30 days
+ stage: test
+ script:
+  - make test
+ artifacts:
+  paths:
+   - htmlcov
+  expire_in: 30 days
 
 mypy:
-  stage: test
-  script:
-    - make mypy
+ stage: test
+ script:
+  - make mypy
