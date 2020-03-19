@@ -1,5 +1,5 @@
 default:
- image: lasnq/$CI_PROJECT_NAME
+ image: lasnq/$CI_PROJECT_NAME:latest
 
 stages:
  - container-build
