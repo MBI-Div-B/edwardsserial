@@ -35,7 +35,7 @@ container-build:
   - container-builder  
  only:
   changes:
-   - pyproject.toml
+   - "pyproject.toml"
    #- .gitlab-ci.yml
 
  
