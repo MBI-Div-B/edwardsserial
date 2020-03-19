@@ -3,8 +3,8 @@ default:
 
 stages:
  - container-build
- - code-quality
- - test
+ #- code-quality
+ - test-ci
  #- test-build
  #- deploy
 
@@ -30,7 +30,8 @@ pylint:
   - make pylint
 
 black:
- stage: code-quality
+ #stage: code-quality
+ stage: test-ci
  script:
   - make black
 
