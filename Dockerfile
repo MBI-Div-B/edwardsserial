@@ -5,5 +5,5 @@ RUN pip install poetry
 RUN mkdir /code
 WORKDIR /code
 ADD pyproject.toml /code/
-RUN poetry config --local virtualenvs.path /venv  && poetry run pip install --upgrade pip && poetry install --verbose
+RUN poetry config virtualenvs.path /venv && poetry run pip install --upgrade pip && poetry install --verbose
 
