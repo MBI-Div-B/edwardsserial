@@ -13,6 +13,7 @@ stages:
 test-ci:
  stage: test-ci
  script:
+  - source /root/.cache/pypoetry/virtualenvs/edwardsserial-MATOk_fk-py3.7/bin/activate
   - cd /root/.cache/pypoetry/virtualenvs/edwardsserial-MATOk_fk-py3.7/bin
   - ls -la
   - cat activate
