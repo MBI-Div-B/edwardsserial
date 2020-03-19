@@ -36,7 +36,7 @@ container-build:
  only:
   changes:
    - "pyproject.toml"
-   #- .gitlab-ci.yml
+   - ".gitlab-ci.yml"
 
  
 pylint:
