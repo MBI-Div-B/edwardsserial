@@ -48,6 +48,7 @@ pylint:
 black:
  stage: code-quality
  script:
+  - source /root/.cache/pypoetry/virtualenvs/edwardsserial-MATOk_fk-py3.7/bin/activate
   - make black
 
 pydocstyle:

@@ -20,8 +20,7 @@ pylint:
 
 
 black:
-#	poetry run python -m black .
-	make black
+	poetry run python -m black .
 
 pydocstyle:
 	poetry run python -m pydocstyle --convention=numpy $(package_name)
