@@ -13,7 +13,7 @@ stages:
 test-ci:
  stage: test-ci
  script:
-  - poetry run black --help
+  - poetry show
 
 container-build:
  stage: container-build
