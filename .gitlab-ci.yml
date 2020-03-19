@@ -15,6 +15,7 @@ test-ci:
  script:
   - ls /root/.cache/pypoetry/virtualenvs
   - poetry config --list
+  - poetry env list
 
 container-build:
  stage: container-build
