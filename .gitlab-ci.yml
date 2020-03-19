@@ -3,8 +3,9 @@ default:
 
 stages:
  - container-build
- #- code-quality
  - test-ci
+ - code-quality
+ - test
  #- test-build
  #- deploy
 
