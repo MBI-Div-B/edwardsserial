@@ -18,7 +18,7 @@ container-build:
   #- echo "Hello Build"
   - podman build .
  tags:
-  - container-build  
+  - container-builder  
 
  
 pylint:
