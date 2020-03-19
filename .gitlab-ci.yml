@@ -13,8 +13,8 @@ container-build:
  script:
   - podman login -u $REGISTRY_USER -p $REGISTRY_PASS $REGISTRY_HOST
   - podman build -t $CI_PROJECT_NAME .
-  - podman tag $CI_PROJECT_NAME lasnq/$CI_PROJECT_NAME
-  - podman push docker://lasnq/$CI_PROJECT_NAME
+  #- podman tag $CI_PROJECT_NAME lasnq/$CI_PROJECT_NAME
+  - podman push $CI_PROJECT_NAME docker://lasnq/$CI_PROJECT_NAME
  tags:
   - container-builder  
  #only:
