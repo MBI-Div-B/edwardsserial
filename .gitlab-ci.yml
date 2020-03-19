@@ -8,6 +8,12 @@ stages:
  #- test-build
  #- deploy
 
+
+test-ci:
+ stage: test-ci
+ script:
+  - ls -la
+
 container-build:
  stage: container-build
  script:
@@ -30,8 +36,7 @@ pylint:
   - make pylint
 
 black:
- #stage: code-quality
- stage: test-ci
+ stage: code-quality
  script:
   - make black
 
