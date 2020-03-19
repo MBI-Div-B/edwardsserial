@@ -13,7 +13,7 @@ stages:
 test-ci:
  stage: test-ci
  script:
-  - ls -la
+  - poetry run ls -la
 
 container-build:
  stage: container-build
