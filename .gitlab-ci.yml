@@ -14,6 +14,7 @@ test-ci:
  stage: test-ci
  script:
   - ls /root/.cache/pypoetry/virtualenvs
+  - poetry config --list
 
 container-build:
  stage: container-build
@@ -24,9 +25,9 @@ container-build:
   - podman push lasnq/$CI_PROJECT_NAME:latest
  tags:
   - container-builder  
- #only:
-  #changes:
-   #- pyproject.toml
+ only:
+  changes:
+   - pyproject.toml
    #- .gitlab-ci.yml
 
  
