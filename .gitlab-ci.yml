@@ -9,7 +9,6 @@ stages:
  #- test-build
  #- deploy
 
-
 test-ci:
  stage: test-ci
  script:
@@ -17,8 +16,6 @@ test-ci:
   - ls -la /venv
   - poetry env list
   - poetry env
-  - source /venv/bin/activate
-
 
 container-build:
  stage: container-build

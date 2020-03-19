@@ -2,8 +2,10 @@ ARG PYTHON_VERSION=3.7
 FROM python:$PYTHON_VERSION
 RUN pip install poetry 
 
+ENV POETRY_VIRTUALENVS_PATH /venv
+
 RUN mkdir /code
 WORKDIR /code
 ADD pyproject.toml /code/
-RUN poetry config virtualenvs.path /venv && poetry run pip install --upgrade pip && poetry install --verbose
+RUN poetry run pip install --upgrade pip && poetry install --verbose
 
