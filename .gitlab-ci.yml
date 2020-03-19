@@ -12,7 +12,6 @@ stages:
 test-ci:
  stage: test-ci
  script:
-  - cat /.dockerenv
   - ls -la /
   - ls -la /venv
   - poetry env list
