@@ -13,6 +13,8 @@ stages:
 test-ci:
  stage: test-ci
  script:
+  - cd /root/.cache/pypoetry/virtualenvs/edwardsserial-MATOk_fk-py3.7
+  - ls -la
   - /bin/sh -c /root/.cache/pypoetry/virtualenvs/edwardsserial-MATOk_fk-py3.7
   - /bin/sh -c ls
   - ls -la /root/.cache/pypoetry/virtualenvs
