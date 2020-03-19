@@ -13,11 +13,10 @@ stages:
 test-ci:
  stage: test-ci
  script:
-  - ls /root/.cache/pypoetry/virtualenvs
+  - ls -la /root/.cache/pypoetry/virtualenvs
   - poetry config --list
   - poetry env list
   - poetry env info
-  - poetry env use /root/.cache/pypoetry/virtualenvs/edwardsserial-MATOk_fk-py3.7
 
 container-build:
  stage: container-build
