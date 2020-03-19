@@ -17,8 +17,8 @@ container-build:
   - podman push lasnq/$CI_PROJECT_NAME
  tags:
   - container-builder  
- only:
-  changes:
+ #only:
+  #changes:
    #- pyproject.toml
    #- .gitlab-ci.yml
 
