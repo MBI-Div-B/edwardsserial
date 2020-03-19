@@ -17,6 +17,7 @@ test-ci:
   - ls -la .venv
   - ls -la .venv/bin
   - poetry env list
+  - poetrt env
 
 
 container-build:
