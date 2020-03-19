@@ -15,7 +15,7 @@ test-ci:
   - ls -la /
   - ls -la /venv
   - poetry env list
-  - poetry env
+  - poetry env info
 
 container-build:
  stage: container-build
