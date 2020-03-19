@@ -14,10 +14,11 @@ test-ci:
  stage: test-ci
  script:
   - ls -la
-  - ls -la .venv
-  - ls -la .venv/bin
+  - ls -la /venv
+  - ls -la /venv/bin
   - poetry env list
   - poetry env
+  - source /venv/bin/activate
 
 
 container-build:
