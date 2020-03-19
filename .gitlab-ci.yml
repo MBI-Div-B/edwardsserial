@@ -14,7 +14,7 @@ container-build:
   - podman login -u $REGISTRY_USER -p $REGISTRY_PASS $REGISTRY_HOST
   - podman build -t $CI_PROJECT_NAME .
   #- podman tag $CI_PROJECT_NAME lasnq/$CI_PROJECT_NAME
-  - podman push $CI_PROJECT_NAME docker://lasnq/$CI_PROJECT_NAME
+  - podman push $CI_PROJECT_NAME lasnq/$CI_PROJECT_NAME:latest
  tags:
   - container-builder  
  #only:
