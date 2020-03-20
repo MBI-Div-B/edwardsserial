@@ -15,7 +15,6 @@ test-ci:
   - ls
   - black .
 
-
 container-build:
  stage: container-build
  script:
@@ -27,7 +26,7 @@ container-build:
   - container-builder  
  only:
   changes:
-   #- "pyproject.toml"
+   - "pyproject.toml"
    - ".gitlab-ci.yml"
 
  
@@ -40,9 +39,7 @@ pylint:
 black:
  stage: code-quality
  script:
-  #- source /root/.cache/pypoetry/virtualenvs/edwardsserial-MATOk_fk-py3.7/bin/activate
-  #- make black
-  - poetry run python -m black .
+  - make black
 
 pydocstyle:
  stage: code-quality
