@@ -6,4 +6,4 @@ RUN mkdir /code
 WORKDIR /code
 ADD pyproject.toml /code/
 #RUN poetry config virtualenvs.create false --local && poetry run pip install --upgrade pip && poetry install --verbose
-RUN poetry export -f requirements.txt --dev -o requirements.txt && pip install requirements.txt
+RUN poetry export -f requirements.txt --dev -o requirements.txt && pip install -r requirements.txt

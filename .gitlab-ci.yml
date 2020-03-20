@@ -12,6 +12,7 @@ stages:
 test-ci:
  stage: test-ci
  script:
+  - ls
   - black .
 
 
