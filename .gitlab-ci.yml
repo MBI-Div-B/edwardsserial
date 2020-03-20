@@ -3,17 +3,10 @@ default:
 
 stages:
  - container-build
- - test-ci
  - code-quality
  - test
  #- test-build
  #- deploy
-
-test-ci:
- stage: test-ci
- script:
-  - ls
-  - black .
 
 container-build:
  stage: container-build
