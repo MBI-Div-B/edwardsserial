@@ -13,8 +13,7 @@ stages:
 test-ci:
  stage: test-ci
  script:
-  - poetry env list
-  - poetry env info
+  - poetry show
 
 container-build:
  stage: container-build
