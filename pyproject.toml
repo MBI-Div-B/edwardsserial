@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "edwardsserial"
-version = "0.2.0"
+version = "0.3.0"
 description = "Python API implementing the serial protocoll from edwards vacuum."
 authors = ["Jan Petermann <jpeterma@physnet.uni-hamburg.de>"]
 license = "MIT"
@@ -13,9 +13,9 @@ keywords = ["TIC", "edwards", "vacuum"]
 [tool.poetry.dependencies]
 python = "^3.7"
 pyserial = "*"
-importlib-resources = "^1.4.0"
 
 [tool.poetry.dev-dependencies]
+importlib-resources = "^1.4.0"
 recommonmark = "*"
 docutils = "!=0.16b0"
 sphinx-markdown-tables = "*"

@@ -3,17 +3,10 @@ default:
 
 stages:
  - container-build
- - test-ci
  - code-quality
  - test
  #- test-build
  #- deploy
-
-
-test-ci:
- stage: test-ci
- script:
-  - poetry show
 
 container-build:
  stage: container-build
@@ -26,8 +19,10 @@ container-build:
   - container-builder  
  only:
   changes:
+   - Dockerfile
+   - poetry.lock
    - pyproject.toml
-   - .gitlab-ci.yml
+   #- .gitlab-ci.yml
 
  
 pylint:
