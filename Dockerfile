@@ -4,6 +4,7 @@ RUN pip install poetry
 
 RUN mkdir /code
 WORKDIR /code
-ADD pyproject.toml /code/
-RUN poetry run pip install --upgrade pip && poetry install --verbose
+COPY pyproject.toml /code/
+RUN poetry config virtualenvs.create false
+RUN poetry install -vvv --no-interaction
 

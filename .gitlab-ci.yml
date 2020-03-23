@@ -13,13 +13,6 @@ stages:
 test-ci:
  stage: test-ci
  script:
-  - cd /root/.cache/pypoetry/virtualenvs/edwardsserial-MATOk_fk-py3.7/bin
-  - ls -la
-  - cat activate
-  - /bin/sh -c /root/.cache/pypoetry/virtualenvs/edwardsserial-MATOk_fk-py3.7/bin/activate
-  - /bin/sh -c ls
-  - ls -la /root/.cache/pypoetry/virtualenvs
-  - poetry config --list
   - poetry env list
   - poetry env info
 
@@ -35,7 +28,7 @@ container-build:
  only:
   changes:
    - pyproject.toml
-   #- .gitlab-ci.yml
+   - .gitlab-ci.yml
 
  
 pylint:
