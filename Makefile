@@ -10,7 +10,7 @@ upload-doc:
 
 
 test:
-	poetry run py.test  --log-level=INFO --no-cov-on-fail --cov $(package_name) --cov-report term-missing --cov-report=html tests
+	poetry run py.test  --log-level=INFO --no-cov-on-fail --cov $(package_name) --cov-report=term-missing --cov-report=html tests
 
 mypy:
 	poetry run mypy .
