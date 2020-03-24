@@ -1,0 +1,4 @@
+[report]
+fail_under = 0
+exclude_lines =
+    pass
