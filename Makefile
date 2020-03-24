@@ -13,17 +13,17 @@ test:
 	poetry run py.test  --log-level=INFO --no-cov-on-fail --cov $(package_name) --cov-report term-missing --cov-report=html tests
 
 mypy:
-	poetry run python -m mypy .
+	poetry run mypy .
 
 pylint:
 	poetry run pylint $(package_name)
 
 
 black:
-	poetry run python -m black .
+	poetry run black .
 
 pydocstyle:
-	poetry run python -m pydocstyle --convention=numpy $(package_name)
+	poetry run pydocstyle --convention=numpy $(package_name)
 
 all-tests: mypy test pylint
 
