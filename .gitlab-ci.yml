@@ -34,7 +34,7 @@ pylint:
 black:
  stage: code-quality
  script:
-  - make black
+  - poetry run black --check .
 
 pydocstyle:
  stage: code-quality
