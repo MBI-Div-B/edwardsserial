@@ -16,7 +16,7 @@ mypy:
 	poetry run mypy .
 
 pylint:
-	poetry run pylint $(package_name)
+	pylint $(package_name)
 
 
 black:
