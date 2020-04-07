@@ -19,8 +19,10 @@ container-build:
   - container-builder  
  only:
   changes:
-   - "pyproject.toml"
-   - ".gitlab-ci.yml"
+   - Dockerfile
+   - poetry.lock
+   - pyproject.toml
+   #- .gitlab-ci.yml
 
  
 pylint:
@@ -32,7 +34,7 @@ pylint:
 black:
  stage: code-quality
  script:
-  - make black
+  - poetry run black --check .
 
 pydocstyle:
  stage: code-quality

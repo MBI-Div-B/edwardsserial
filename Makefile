@@ -10,20 +10,20 @@ upload-doc:
 
 
 test:
-	py.test  --log-level=INFO --no-cov-on-fail --cov $(package_name) --cov-report term-missing --cov-report=html tests
+	poetry run py.test  --log-level=INFO --no-cov-on-fail --cov $(package_name) --cov-report=term-missing --cov-report=html tests
 
 mypy:
-	python -m mypy .
+	poetry run mypy .
 
 pylint:
 	pylint $(package_name)
 
 
 black:
-	python -m black .
+	poetry run black .
 
 pydocstyle:
-	python -m pydocstyle --convention=numpy $(package_name)
+	poetry run pydocstyle --convention=numpy $(package_name)
 
 all-tests: mypy test pylint
 
