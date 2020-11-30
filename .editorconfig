@@ -37,4 +37,4 @@ indent_style = space
 indent_size = 2
 
 [settings]
-known_third_party = edwardsserial,pipenv,serial,setuptools,tests
+known_third_party = serial

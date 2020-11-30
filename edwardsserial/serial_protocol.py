@@ -128,12 +128,12 @@ class SerialProtocol:
         return message
 
     def send_message(self, operation, object_id, data=None):
+        message = self._create_message(operation, object_id, data=data)
         with serial.Serial(self.port, timeout=1, baudrate=self.BAUDRATE) as ser:
-            message = self._create_message(operation, object_id, data=data)
             ser.write(message.encode("ascii"))
             response = ser.read_until(b"\r").decode("ascii")
-            log.debug(f"send_message: response={response}")
-            response = self.RESPONSE.match(response)
+        log.debug(f"send_message: response={response}")
+        response = self.RESPONSE.match(response)
         if not response:
             raise ConnectionError("No serial connection to device.")
         groups = response.groupdict()
