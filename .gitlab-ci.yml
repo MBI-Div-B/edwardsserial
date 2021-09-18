@@ -8,6 +8,17 @@ stages:
  #- test-build
  #- deploy
 
+pages:
+  stage: deploy
+  script:
+    - echo "Copying public dic..."
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
+
+
 container-build:
  stage: container-build
  script:
