@@ -6,7 +6,7 @@ stages:
  - code-quality
  - test
  #- test-build
- #- deploy
+ - deploy
 
 pages:
   stage: deploy
