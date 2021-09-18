@@ -16,7 +16,7 @@ pages:
     paths:
       - public
   only:
-    - master
+    - main
 
 
 container-build:
