@@ -1,3 +1,5 @@
+
+.PHONY: test doc all mypy black pylint pydocstyle pylint
 all: requirements test doc bdist
 
 package_name:=edwardsserial
@@ -16,7 +18,7 @@ mypy:
 	poetry run mypy .
 
 pylint:
-	pylint $(package_name)
+	poetry run pylint $(package_name)
 
 
 black:
@@ -30,5 +32,3 @@ all-tests: mypy test pylint
 clean:
 	@rm -r dist/ build/
 	cd doc; make clean
-
-.PHONY: test doc all
