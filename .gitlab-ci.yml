@@ -1,5 +1,9 @@
-default:
- image: lasnq/$CI_PROJECT_NAME:latest
+# https://docs.gitlab.com/ee/user/packages/container_registry/
+
+image: docker:19.03.12
+services:
+  - docker:19.03.12-dind
+
 
 stages:
  - container-build
@@ -18,45 +22,69 @@ pages:
   only:
     - main
 
+variables:
+  # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_CERTDIR: "/certs"
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - docker pull $CONTAINER_TEST_IMAGE
 
 container-build:
- stage: container-build
- script:
-  - podman login -u $REGISTRY_USER -p $REGISTRY_PASS $REGISTRY_HOST
-  - podman build -t $CI_PROJECT_NAME .
-  - podman tag $CI_PROJECT_NAME lasnq/$CI_PROJECT_NAME:latest
-  - podman push lasnq/$CI_PROJECT_NAME:latest
- tags:
-  - container-builder  
- only:
-  changes:
-   - Dockerfile
-   - poetry.lock
-   - pyproject.toml
-   #- .gitlab-ci.yml
+  stage: container-build
+  services:
+    - docker:19.03.12-dind
+  script:
+    - docker build --pull -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+  only:
+    changes:
+      - Dockerfile
+      - poetry.lock
+      - pyproject.toml
+#      - .gitlab-ci.yml
+#container-build:
+# stage: container-build
+# script:
+#  - podman login -u $REGISTRY_USER -p $REGISTRY_PASS $REGISTRY_HOST
+#  - podman build -t $CI_PROJECT_NAME .
+#  - podman tag $CI_PROJECT_NAME lasnq/$CI_PROJECT_NAME:latest
+#  - podman push lasnq/$CI_PROJECT_NAME:latest
+# tags:
+#  - container-builder  
+# only:
+#  changes:
+#   - Dockerfile
+#   - poetry.lock
+#   - pyproject.toml
+#   #- .gitlab-ci.yml
 
  
 pylint:
  stage: code-quality
  allow_failure: true
  script:
-  - make pylint
+  - ls
+  - docker run -v $(pwd):/code/:ro $CONTAINER_TEST_IMAGE make pylint
 
 black:
  stage: code-quality
  script:
-  - poetry run black --check .
+  - docker run -v $(pwd):/code/:ro $CONTAINER_TEST_IMAGE poetry run black --check .
 
 pydocstyle:
  stage: code-quality
  allow_failure: true
  script:
-  - make pydocstyle
+  - docker run -v $(pwd):/code/:ro $CONTAINER_TEST_IMAGE make pydocstyle
 
-test:
+pytest:
  stage: test
  script:
-  - make test
+  - docker run -v $(pwd):/code/ $CONTAINER_TEST_IMAGE make test
  artifacts:
   paths:
    - htmlcov
@@ -65,4 +93,4 @@ test:
 mypy:
  stage: test
  script:
-  - make mypy
+  - docker run -v $(pwd):/code/:ro $CONTAINER_TEST_IMAGE make mypy
