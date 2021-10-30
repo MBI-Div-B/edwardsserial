@@ -29,15 +29,13 @@ variables:
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
-before_script:
-  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  - docker pull $CONTAINER_TEST_IMAGE
 
 container-build:
   stage: container-build
   services:
     - docker:19.03.12-dind
   script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker build --pull -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
   only:
@@ -45,44 +43,44 @@ container-build:
       - Dockerfile
       - poetry.lock
       - pyproject.toml
-#      - .gitlab-ci.yml
-#container-build:
-# stage: container-build
-# script:
-#  - podman login -u $REGISTRY_USER -p $REGISTRY_PASS $REGISTRY_HOST
-#  - podman build -t $CI_PROJECT_NAME .
-#  - podman tag $CI_PROJECT_NAME lasnq/$CI_PROJECT_NAME:latest
-#  - podman push lasnq/$CI_PROJECT_NAME:latest
-# tags:
-#  - container-builder  
-# only:
-#  changes:
-#   - Dockerfile
-#   - poetry.lock
-#   - pyproject.toml
-#   #- .gitlab-ci.yml
+      - .gitlab-ci.yml
 
+
+# --- code-quality ----------------------------------------------- 
  
 pylint:
+ extends: .test_template 
  stage: code-quality
  allow_failure: true
  script:
-  - ls
   - docker run -v $(pwd):/code/:ro $CONTAINER_TEST_IMAGE make pylint
 
 black:
+ extends: .test_template 
  stage: code-quality
  script:
   - docker run -v $(pwd):/code/:ro $CONTAINER_TEST_IMAGE poetry run black --check .
 
 pydocstyle:
+ extends: .test_template 
  stage: code-quality
  allow_failure: true
  script:
   - docker run -v $(pwd):/code/:ro $CONTAINER_TEST_IMAGE make pydocstyle
 
+
+# --- tests ----------------------------------------------- 
+
+#https://stackoverflow.com/questions/54074433/gitlab-ci-specifying-stages-in-before-script
+.test_template:
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY    
+    #- docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker pull $CONTAINER_TEST_IMAGE
+  stage: test
+
 pytest:
- stage: test
+ extends: .test_template 
  script:
   - docker run -v $(pwd):/code/ $CONTAINER_TEST_IMAGE make test
  artifacts:
@@ -91,6 +89,6 @@ pytest:
   expire_in: 30 days
 
 mypy:
- stage: test
+ extends: .test_template 
  script:
   - docker run -v $(pwd):/code/:ro $CONTAINER_TEST_IMAGE make mypy
