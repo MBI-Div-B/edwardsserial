@@ -42,7 +42,7 @@ container-build:
       - Dockerfile
       - poetry.lock
       - pyproject.toml
-#      - .gitlab-ci.yml
+      - .gitlab-ci.yml
 
 
 # --- tests ----------------------------------------------- 
