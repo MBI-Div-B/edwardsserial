@@ -1,5 +1,5 @@
-/label ~Bug 
-~Bug
+/label ~bug 
+~bug
 
  Summary
 
