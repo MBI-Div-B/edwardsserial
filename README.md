@@ -2,6 +2,9 @@
 
 `edwardsserial` is a Python package with an object-oriented wrapper for the [TIC Turbo- and Instrument Controller](https://shop.edwardsvacuum.com/products/d39722000/view.aspx) from Edwards.
 
+## Documentation
+- documentation of the [latest realease](https://codingcoffeebean.gitlab.io/edwardsserial/edwardsserial.html)
+
 ## Contributing
 All contributions, bug reports, bug fixes, documentation improvements, enhancements, and ideas are welcome.
 
