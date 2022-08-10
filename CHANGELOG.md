@@ -41,3 +41,5 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 - README.md
+- `edwardsserial.serial_protocol.SerialProtocol` now uses `pyserial.serial_for_url` instead of `pyserial.Serial` (contribution by [Paul Grimes](https://gitlab.com/PaulKGrimes))
+- dependency: pyserial>2.5.0
