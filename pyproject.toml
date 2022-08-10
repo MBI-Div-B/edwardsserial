@@ -13,7 +13,7 @@ keywords = ["TIC", "edwards", "vacuum"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-pyserial = "*"
+pyserial = ">2.5.0"
 
 [tool.poetry.dev-dependencies]
 importlib-resources = "^1.4.0"
