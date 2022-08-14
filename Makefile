@@ -1,18 +1,16 @@
 
 .PHONY: test doc all mypy black pylint pydocstyle pylint
-all: requirements test doc bdist
-
 package_name:=edwardsserial
 
 doc:
-	@export PYTHONPATH=`pwd`/src:$(PYTHONPATH); cd doc; make html
+	@export PYTHONPATH=`pwd`:$(PYTHONPATH); cd doc; make html
 
 upload-doc:
 	@cd doc; make upload
 
 
 test:
-	poetry run py.test  --log-level=INFO --no-cov-on-fail --cov $(package_name) --cov-report=term-missing --cov-report=html tests
+	poetry run pytest  --log-level=INFO --no-cov-on-fail --cov $(package_name) --cov-report=term-missing --cov-report=html tests
 
 mypy:
 	poetry run mypy .
@@ -20,14 +18,15 @@ mypy:
 pylint:
 	poetry run pylint $(package_name)
 
-
 black:
 	poetry run black .
 
 pydocstyle:
 	poetry run pydocstyle --convention=numpy $(package_name)
 
-all-tests: mypy test pylint
+codestyle: black pylint pydocstyle 
+
+all-tests: mypy test
 
 clean:
 	@rm -r dist/ build/
