@@ -30,6 +30,10 @@ TestCSV*
 ## pyenv
 .python-version
 
+## pipenv
+.venv
+.env
+
 ### MacOS
 .DS_Store
 
