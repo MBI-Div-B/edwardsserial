@@ -129,7 +129,7 @@ class Gauge(SerialProtocol):
 
     @property
     def filter(self):
-        """ Moving average filter for the pressure of 1 second.
+        """Moving average filter for the pressure of 1 second.
 
         Returns
         -------
