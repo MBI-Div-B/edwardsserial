@@ -22,7 +22,7 @@ class TestGauge(MockedBaseTest.MockedSerial):
     def test_state(self):
         self.mocks["read_until"].return_value = b"=V913 0.34;59;11;0;0\r"
         self.assertEqual("11: On", self.gauge.state)
-        self.mocks["Serial.write"].asser_called_with(b"?V913\r")
+        self.mocks["Serial.write"].assert_called_with(b"?V913\r")
 
     def test_unit(self):
         serial_returns = {
@@ -33,7 +33,7 @@ class TestGauge(MockedBaseTest.MockedSerial):
         for serial_return, return_value in serial_returns.items():
             self.mocks["read_until"].return_value = serial_return
             self.assertEqual(return_value, self.gauge.unit)
-            self.mocks["Serial.write"].asser_called_with(b"?V913\r")
+            self.mocks["Serial.write"].assert_called_with(b"?V913\r")
 
     def test_type(self):
         serial_returns = {
@@ -44,37 +44,37 @@ class TestGauge(MockedBaseTest.MockedSerial):
         for serial_return, return_value in serial_returns.items():
             self.mocks["read_until"].return_value = serial_return
             self.assertEqual(return_value, self.gauge.type)
-            self.mocks["Serial.write"].asser_called_with(b"?S913 5\r")
+            self.mocks["Serial.write"].assert_called_with(b"?S913 5\r")
 
     def test_on(self):
         self.mocks["read_until"].return_value = b"*C913 0\r"
         self.gauge.on()
-        self.mocks["Serial.write"].asser_called_with(b"!C913 1\r")
+        self.mocks["Serial.write"].assert_called_with(b"!C913 1\r")
 
     def test_off(self):
         self.mocks["read_until"].return_value = b"*C913 0\r"
         self.gauge.off()
-        self.mocks["Serial.write"].asser_called_with(b"!C913 0\r")
+        self.mocks["Serial.write"].assert_called_with(b"!C913 0\r")
 
     def test_zero(self):
         self.mocks["read_until"].return_value = b"*C913 0\r"
         self.gauge.zero()
-        self.mocks["Serial.write"].asser_called_with(b"!C913 3\r")
+        self.mocks["Serial.write"].assert_called_with(b"!C913 3\r")
 
     def test_calibrate(self):
         self.mocks["read_until"].return_value = b"*C913 0\r"
         self.gauge.calibrate()
-        self.mocks["Serial.write"].asser_called_with(b"!C913 4\r")
+        self.mocks["Serial.write"].assert_called_with(b"!C913 4\r")
 
     def test_degas(self):
         self.mocks["read_until"].return_value = b"*C913 0\r"
         self.gauge.degas()
-        self.mocks["Serial.write"].asser_called_with(b"!C913 5\r")
+        self.mocks["Serial.write"].assert_called_with(b"!C913 5\r")
 
     def test_new_id(self):
         self.mocks["read_until"].return_value = b"*C913 0\r"
         self.gauge.new_id()
-        self.mocks["Serial.write"].asser_called_with(b"!C913 2\r")
+        self.mocks["Serial.write"].assert_called_with(b"!C913 2\r")
 
 
 class TestPressure(MockedBaseTest.MockedGauge):

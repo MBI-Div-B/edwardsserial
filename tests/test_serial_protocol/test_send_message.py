@@ -38,7 +38,8 @@ class TestSendMessage(MockedBaseTest.MockedSerial):
     def test_error_response_no_message(self):
         self.mocks["read_until"].return_value = b"*V913 10\r"
         with self.assertRaisesRegex(
-            ErrorResponse, "Device responded with error code 10: None",
+            ErrorResponse,
+            "Device responded with error code 10: None",
         ):
             SerialProtocol(port="COM3").send_message("?V", 913)
         self.mocks["Serial.write"].assert_called_with(b"?V913\r")
