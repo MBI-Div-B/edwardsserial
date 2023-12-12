@@ -66,7 +66,6 @@ class AlertID(Warning):
 
 
 class ErrorResponse(Exception):
-
     ERROR_CODES = {
         1: "Invalid command for object ID",
         2: "Invalid query/command",
@@ -82,6 +81,50 @@ class ErrorResponse(Exception):
     def __init__(self, error_code):
         message = f"Device responded with error code {error_code}: {self.ERROR_CODES.get(int(error_code))}"
         super().__init__(message)
+
+
+class SerialDriver:
+    def __init__(
+        self,
+        com_port="/dev/ttyUSB0",
+        socket_hostname="localhost",
+        socket_port=2011,
+        timeout=1,
+        baudrate=9600,
+        connection_type="serial",
+    ):
+        self.connection_type = connection_type
+        if self.connection_type == "serial":
+            import serial
+
+            self.serial_port = serial.Serial(com_port, baudrate, timeout)
+        elif self.connection_type == "net":
+            import socket
+
+            self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.socket.settimeout(timeout)
+            self.socket.connect((socket_hostname, socket_port))
+
+    def write_bytes(self, msg):
+        if self.connection_type == "serial":
+            self.serial_port.write(msg)
+        elif self.connection_type == "net":
+            self.socket.send(msg)
+
+    def read_until_terminates(self, terminator=b"\r"):
+        if self.connection_type == "serial":
+            return self.serial_port.read_until(terminator)
+        elif self.connection_type == "net":
+            bytes_msg = b""
+            while not bytes_msg.endswith(terminator):
+                bytes_msg += self.socket.recv(1)
+            return bytes_msg
+
+    def close_connection(self):
+        if self.connection_type == "serial":
+            self.serial_port.close()
+        elif self.connection_type == "net":
+            self.socket.close()
 
 
 class SerialProtocol:
@@ -107,8 +150,18 @@ class SerialProtocol:
         4: "On State",
     }
 
-    def __init__(self, port: str):
-        self.port = port
+    def __init__(
+        self,
+        com_port="/dev/ttyUSB0",
+        socket_hostname="localhost",
+        socket_port=2011,
+        timeout=1,
+        baudrate=9600,
+        connection_type="serial",
+    ):
+        self.serial_driver = SerialDriver(
+            com_port, socket_hostname, socket_port, timeout, baudrate, connection_type
+        )
 
     def _check_alert(self, object_id):
         *values, alert_id, priority = self.send_message("?V", object_id)
@@ -129,9 +182,8 @@ class SerialProtocol:
 
     def send_message(self, operation, object_id, data=None):
         message = self._create_message(operation, object_id, data=data)
-        with serial.serial_for_url(self.port, timeout=1, baudrate=self.BAUDRATE) as ser:
-            ser.write(message.encode("ascii"))
-            response = ser.read_until(b"\r").decode("ascii")
+        self.serial_driver.write_bytes(message.encode("ascii"))
+        response = self.serial_driver.read_until_terminates(b"\r").decode("ascii")
         log.debug(f"send_message: response={response}")
         response = self.RESPONSE.match(response)
         if not response:
