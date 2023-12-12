@@ -49,8 +49,8 @@ class nEXT(SerialProtocol):
 
     @property
     def state(self):
-        # 8 single hex -> 32 bits (only 16 first are in use, 16-31 - reserved)
-        state_bits = self.send_message("?V", 852)[1]
+        # 8 single hex -> 32 bitds (only 16 first are in use, 16-31 - reserved)
+        state_bits = int(self.send_message("?V", 852)[1], 16)
         return "\n".join(
             map(
                 self.STATUS_BITS.get,
@@ -61,19 +61,19 @@ class nEXT(SerialProtocol):
     @property
     def link_voltage(self):
         """Measured link voltage in V"""
-        ret_val = 0.1 * self.send_message("?V", 860)[0]
+        ret_val = 0.1 * int(self.send_message("?V", 860)[0])
         return ret_val
 
     @property
     def link_current(self):
         """Measured link current in A"""
-        ret_val = 0.1 * self.send_message("?V", 860)[1]
+        ret_val = 0.1 * int(self.send_message("?V", 860)[1])
         return ret_val
 
     @property
     def link_power(self):
         """Measured link power in W"""
-        ret_val = 0.1 * self.send_message("?V", 860)[2]
+        ret_val = 0.1 * int(self.send_message("?V", 860)[2])
         return ret_val
 
     @property

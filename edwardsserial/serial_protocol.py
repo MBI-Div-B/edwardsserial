@@ -97,7 +97,9 @@ class SerialDriver:
         if self.connection_type == "serial":
             import serial
 
-            self.serial_port = serial.Serial(com_port, baudrate, timeout)
+            self.serial_port = serial.Serial(
+                port=com_port, baudrate=baudrate, timeout=timeout
+            )
         elif self.connection_type == "net":
             import socket
 
@@ -196,3 +198,6 @@ class SerialProtocol:
                 raise ErrorResponse(error_code=error_code)
             return
         return groups.get("data").split(";")
+
+    def close_connection(self):
+        self.serial_driver.close_connection()
