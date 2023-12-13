@@ -51,12 +51,7 @@ class nEXT(SerialProtocol):
     def state(self):
         # 8 single hex -> 32 bitds (only 16 first are in use, 16-31 - reserved)
         state_bits = int(self.send_message("?V", 852)[1], 16)
-        return "\n".join(
-            map(
-                self.STATUS_BITS.get,
-                filter(lambda ind: state_bits & (1 << ind), self.STATUS_BITS.keys()),
-            )
-        )
+        return state_bits
 
     @property
     def link_voltage(self):
