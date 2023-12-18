@@ -52,7 +52,7 @@ class nEXT(SerialProtocol):
         return int(raw_speed), int(raw_state, 16)
 
     def get_link(self):
-        return [0.1 * int(raw_data) for raw_data in self.self.send_message("?V", 860)]
+        return [0.1 * int(raw_data) for raw_data in self.send_message("?V", 860)]
 
     def get_temps(self):
         return [int(raw_data) for raw_data in self.send_message("?V", 859)]
