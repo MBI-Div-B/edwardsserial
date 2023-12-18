@@ -14,7 +14,7 @@ class nEXT(SerialProtocol):
         3: "Vent valve energised",
         4: "Start command active",
         6: "Serial enable active",
-        7: "Above 50%\ rotational speed",
+        7: "Above 50% rotational speed",
         8: "Exclusive control mode selection",
         9: "Exclusive control mode selection",
         10: "Controller internal software mismatch",
