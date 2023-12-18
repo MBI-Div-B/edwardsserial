@@ -47,6 +47,16 @@ class nEXT(SerialProtocol):
     def stop(self):
         self.send_message("!C", 852, 0)
 
+    def get_speed_and_state(self):
+        raw_speed, raw_state = self.send_message("?V", 852)
+        return int(raw_speed), int(raw_state, 16)
+
+    def get_link(self):
+        return [0.1 * int(raw_data) for raw_data in self.self.send_message("?V", 860)]
+
+    def get_temps(self):
+        return [int(raw_data) for raw_data in self.send_message("?V", 859)]
+    
     @property
     def state(self):
         # 8 single hex -> 32 bitds (only 16 first are in use, 16-31 - reserved)
